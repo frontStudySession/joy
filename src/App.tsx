@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import './App.css';
-import { Hello } from '@pages/Hello';
+import { Hello } from '@app/Hello';
+import { CracoTest } from '@pages/CracoTest';
 import { Intro } from '@components/Intro';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
     <MyApp>
       <Hello />
       <Intro />
+      <CracoTest />
     </MyApp>
   );
 }
