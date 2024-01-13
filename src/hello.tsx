@@ -10,5 +10,6 @@ const HelloBox = styled.div`
   height: 100%;
   background-color: Black;
   color: white;
-  font-weight: 700;
+  font-family: 'DNFBitBitv2';
+  font-size: 1.5rem;
 `;
