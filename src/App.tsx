@@ -1,16 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import './App.css';
-import { Hello } from '@app/Hello';
-import { CracoTest } from '@pages/CracoTest';
 import { Intro } from '@components/Intro';
+import { Hello } from '@helpers/Hello';
 
 function App() {
   return (
     <MyApp>
       <Hello />
       <Intro />
-      <CracoTest />
     </MyApp>
   );
 }
