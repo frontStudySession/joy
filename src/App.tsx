@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import './App.css';
 import { Intro } from '@components/Intro';
 import { Hello } from '@helpers/Hello';
+import Form from '@components/Form';
 
 function App() {
   return (
     <MyApp>
-      <Hello />
-      <Intro />
+      <Form />
     </MyApp>
   );
 }
