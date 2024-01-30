@@ -66,25 +66,15 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test"
+    "start": "node scripts/start",
+    "build": "node scripts/build",
+    "test": "node scripts/test"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ],
-    "parserOptions": {
-      "babelOptions": {
-        "presets": [
-          [
-            "babel-preset-react-app",
-            false
-          ]
-        ]
-      }
-    }
+    ]
   },
   "browserslist": {
     "production": [
@@ -153,5 +143,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "tsconfig-paths-webpack-plugin": "^4.1.0"
   }
 }
