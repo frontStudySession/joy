@@ -75,7 +75,7 @@ export default function Form() {
     register,
     setError,
     handleSubmit,
-    formState: { errors, isSubmitted }
+    formState: { errors, isSubmitted },
   } = useForm<MyFormInput>();
 
   const onValid = (data: any) => {
@@ -102,7 +102,7 @@ export default function Form() {
         {...register('firstname', {
           required: 'Required first name',
           maxLength: 80,
-          minLength: 1
+          minLength: 1,
         })}
       />
       {errors.firstname && (
@@ -117,7 +117,7 @@ export default function Form() {
         {...register('lastname', {
           required: 'Required last name',
           maxLength: 100,
-          minLength: 1
+          minLength: 1,
         })}
       />
       {errors.lastname && (
@@ -133,8 +133,8 @@ export default function Form() {
           required: 'Required email',
           pattern: {
             value: /\S+@\S+\.\S+/,
-            message: '이메일 형식에 맞지 않습니다.'
-          }
+            message: '이메일 형식에 맞지 않습니다.',
+          },
         })}
       />
       {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
@@ -147,7 +147,7 @@ export default function Form() {
         {...register('phonenumber', {
           required: 'Required phone number',
           minLength: 6,
-          maxLength: 11
+          maxLength: 11,
         })}
       />
       {errors.phonenumber && (
@@ -183,7 +183,10 @@ export default function Form() {
         <ErrorMessage>{errors.developer.message}</ErrorMessage>
       )}
 
-      <SubmitButton type="submit" value="submit" />
+      <SubmitButton
+        type="submit"
+        value="submit"
+      />
     </MyForm>
   );
 }

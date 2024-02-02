@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Intro = () => <IntroduceBox>I'm Joy</IntroduceBox>;
+export const Intro = () => <IntroduceBox>Joy</IntroduceBox>;
 
 const IntroduceBox = styled.div`
   text-align: center;
