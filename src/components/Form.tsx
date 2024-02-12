@@ -22,13 +22,14 @@ const MyForm = styled.form`
   max-width: 600px;
 `;
 
-const Input = styled.input<{ 'aria-invalid': string | null }>`
+const Input = styled.input`
   outline: none;
   border: 0;
   border-radius: 0.3rem;
   padding: 0.7rem;
   margin-top: 0.3rem;
-  background-color: ${(props) => props['aria-invalid']};
+  background-color: ${(props) =>
+    props['aria-invalid'] ? '#fee9ec' : '#f9f9f9'};
 `;
 
 const Label = styled.label`
@@ -94,30 +95,44 @@ export default function Form() {
 
   return (
     <MyForm onSubmit={handleSubmit(onValid, onInvalid)}>
-      <Label htmlFor="name">First name</Label>
+      <Label htmlFor="firstName">First name</Label>
       <Input
+        id="firstName"
         type="text"
         placeholder="ex. 미지"
-        aria-invalid={errors.firstname ? '#fee9ec' : '#f9f9f9'}
+        aria-invalid={errors.firstname ? true : false}
         {...register('firstname', {
           required: 'Required first name',
-          maxLength: 80,
-          minLength: 1,
+          maxLength: {
+            value: 80,
+            message: 'Exceeded Enterable Characters',
+          },
+          minLength: {
+            value: 1,
+            message: 'Required at least one character',
+          },
         })}
       />
       {errors.firstname && (
         <ErrorMessage>{errors.firstname.message}</ErrorMessage>
       )}
 
-      <Label htmlFor="name">Last name</Label>
+      <Label htmlFor="lastName">Last name</Label>
       <Input
+        id="lastName"
         type="text"
         placeholder="ex. 김"
-        aria-invalid={errors.lastname ? '#fee9ec' : '#f9f9f9'}
+        aria-invalid={errors.lastname ? true : false}
         {...register('lastname', {
           required: 'Required last name',
-          maxLength: 100,
-          minLength: 1,
+          maxLength: {
+            value: 100,
+            message: 'Exceeded Enterable Characters',
+          },
+          minLength: {
+            value: 1,
+            message: 'Required at least one character',
+          },
         })}
       />
       {errors.lastname && (
@@ -126,9 +141,10 @@ export default function Form() {
 
       <Label htmlFor="email">Email</Label>
       <Input
+        id="email"
         type="text"
         placeholder="ex. unknown@gmail.com"
-        aria-invalid={errors.email ? '#fee9ec' : '#f9f9f9'}
+        aria-invalid={errors.email ? true : false}
         {...register('email', {
           required: 'Required email',
           pattern: {
@@ -141,21 +157,31 @@ export default function Form() {
 
       <Label htmlFor="phonenum">Phone number</Label>
       <Input
-        type="number"
+        id="phonenum"
+        type="numeric"
         placeholder="ex. 01012345678"
-        aria-invalid={errors.phonenumber ? '#fee9ec' : '#f9f9f9'}
+        aria-invalid={errors.phonenumber ? true : false}
         {...register('phonenumber', {
           required: 'Required phone number',
-          minLength: 6,
-          maxLength: 11,
+          maxLength: {
+            value: 11,
+            message: 'Exceeded Enterable Characters',
+          },
+          minLength: {
+            value: 6,
+            message: 'Required at least 6 character',
+          },
         })}
       />
       {errors.phonenumber && (
         <ErrorMessage>{errors.phonenumber.message}</ErrorMessage>
       )}
 
-      <Label htmlFor="name">Title</Label>
-      <SelectBox {...register('title', { required: 'Required title' })}>
+      <Label htmlFor="title">Title</Label>
+      <SelectBox
+        id="title"
+        {...register('title', { required: 'Required title' })}
+      >
         <option value="Mr">Mr</option>
         <option value="Mrs">Mrs</option>
         <option value="Miss">Miss</option>
@@ -167,6 +193,7 @@ export default function Form() {
       <JobInput>
         <label htmlFor="developer">Yes</label>
         <input
+          id="developer"
           {...register('developer', { required: 'Required developer' })}
           type="radio"
           value="Yes"
