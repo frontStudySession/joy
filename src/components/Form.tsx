@@ -1,16 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import styled from 'styled-components';
-
-// Field Values
-interface MyFormInput {
-  firstname: string | undefined;
-  lastname: string | undefined;
-  email: string | undefined;
-  phonenumber: number | undefined;
-  title: string | undefined;
-  developer: boolean | undefined;
-}
 
 const MyForm = styled.form`
   display: flex;
@@ -69,15 +61,48 @@ const ErrorMessage = styled.p`
   margin-bottom: 0rem;
 `;
 
+// schema
+const schema = yup
+  .object({
+    firstName: yup
+      .string()
+      .required('Required first name 😰')
+      .min(1, 'Required at least one character')
+      .max(80, 'Exceeded Enterable Characters'),
+    lastName: yup
+      .string()
+      .required('Required last name 😰')
+      .min(1, 'Required at least one character')
+      .max(100, 'Exceeded Enterable Characters'),
+    email: yup.string().required('Required email 😰').email(),
+    phone: yup
+      .number()
+      .required('Required phone number 😰')
+      .max(11, 'Exceeded Enterable Characters'),
+    title: yup.string().required('Required title 😰'),
+    developer: yup.string().required('Required developer 😰'),
+  })
+  .required();
+
 export default function Form() {
   // register 함수로 입력란 등록
   // handleSubmit 함수로 form 요소에서 발생하는 event 처리
   const {
     register,
-    setError,
     handleSubmit,
-    formState: { errors, isSubmitted },
-  } = useForm<MyFormInput>();
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      // 초기값 설정
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: 1234,
+      title: 'Mr',
+      developer: 'yes',
+    },
+  });
 
   const onValid = (data: any) => {
     alert('SUCCESS');
@@ -100,21 +125,11 @@ export default function Form() {
         id="firstName"
         type="text"
         placeholder="ex. 미지"
-        aria-invalid={errors.firstname ? true : false}
-        {...register('firstname', {
-          required: 'Required first name',
-          maxLength: {
-            value: 80,
-            message: 'Exceeded Enterable Characters',
-          },
-          minLength: {
-            value: 1,
-            message: 'Required at least one character',
-          },
-        })}
+        aria-invalid={errors.firstName ? true : false}
+        {...register('firstName')}
       />
-      {errors.firstname && (
-        <ErrorMessage>{errors.firstname.message}</ErrorMessage>
+      {errors.firstName && (
+        <ErrorMessage>{errors.firstName.message}</ErrorMessage>
       )}
 
       <Label htmlFor="lastName">Last name</Label>
@@ -122,21 +137,11 @@ export default function Form() {
         id="lastName"
         type="text"
         placeholder="ex. 김"
-        aria-invalid={errors.lastname ? true : false}
-        {...register('lastname', {
-          required: 'Required last name',
-          maxLength: {
-            value: 100,
-            message: 'Exceeded Enterable Characters',
-          },
-          minLength: {
-            value: 1,
-            message: 'Required at least one character',
-          },
-        })}
+        aria-invalid={errors.lastName ? true : false}
+        {...register('lastName')}
       />
-      {errors.lastname && (
-        <ErrorMessage>{errors.lastname.message}</ErrorMessage>
+      {errors.lastName && (
+        <ErrorMessage>{errors.lastName.message}</ErrorMessage>
       )}
 
       <Label htmlFor="email">Email</Label>
@@ -145,42 +150,24 @@ export default function Form() {
         type="text"
         placeholder="ex. unknown@gmail.com"
         aria-invalid={errors.email ? true : false}
-        {...register('email', {
-          required: 'Required email',
-          pattern: {
-            value: /\S+@\S+\.\S+/,
-            message: '이메일 형식에 맞지 않습니다.',
-          },
-        })}
+        {...register('email')}
       />
       {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
 
-      <Label htmlFor="phonenum">Phone number</Label>
+      <Label htmlFor="phone">Phone number</Label>
       <Input
-        id="phonenum"
+        id="phone"
         type="numeric"
         placeholder="ex. 01012345678"
-        aria-invalid={errors.phonenumber ? true : false}
-        {...register('phonenumber', {
-          required: 'Required phone number',
-          maxLength: {
-            value: 11,
-            message: 'Exceeded Enterable Characters',
-          },
-          minLength: {
-            value: 6,
-            message: 'Required at least 6 character',
-          },
-        })}
+        aria-invalid={errors.phone ? true : false}
+        {...register('phone')}
       />
-      {errors.phonenumber && (
-        <ErrorMessage>{errors.phonenumber.message}</ErrorMessage>
-      )}
+      {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
 
       <Label htmlFor="title">Title</Label>
       <SelectBox
         id="title"
-        {...register('title', { required: 'Required title' })}
+        {...register('title')}
       >
         <option value="Mr">Mr</option>
         <option value="Mrs">Mrs</option>
@@ -194,14 +181,14 @@ export default function Form() {
         <label htmlFor="developer">Yes</label>
         <input
           id="developer"
-          {...register('developer', { required: 'Required developer' })}
+          {...register('developer')}
           type="radio"
           value="Yes"
           checked
         />
         <label htmlFor="developer">No</label>
         <input
-          {...register('developer', { required: 'Required developer' })}
+          {...register('developer')}
           type="radio"
           value="No"
         />
