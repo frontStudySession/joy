@@ -1,8 +1,9 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import styled from 'styled-components';
+import { formSchema } from '@src/schema/formSchema';
 
 const MyForm = styled.form`
   display: flex;
@@ -62,33 +63,14 @@ const ErrorMessage = styled.p`
 `;
 
 // schema
-const schema = yup
-  .object({
-    firstName: yup
-      .string()
-      .required('Required first name 😰')
-      .min(1, 'Required at least one character')
-      .max(80, 'Exceeded Enterable Characters'),
-    lastName: yup
-      .string()
-      .required('Required last name 😰')
-      .min(1, 'Required at least one character')
-      .max(100, 'Exceeded Enterable Characters'),
-    email: yup.string().required('Required email 😰').email(),
-    phone: yup
-      .number()
-      .required('Required phone number 😰')
-      .max(11, 'Exceeded Enterable Characters'),
-    title: yup.string().required('Required title 😰'),
-    developer: yup.string().required('Required developer 😰'),
-  })
-  .required();
+const schema = formSchema.required();
 
 export default function Form() {
   // register 함수로 입력란 등록
   // handleSubmit 함수로 form 요소에서 발생하는 event 처리
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -105,97 +87,177 @@ export default function Form() {
   });
 
   const onValid = (data: any) => {
-    alert('SUCCESS');
-    console.log(data);
+    console.log('SUCCESS', data);
     for (const input in data) {
       console.log(`${input}: ${data[input]}`);
     }
   };
   const onInvalid = (errors: any) => {
-    alert('FAIL');
+    console.log('FAIL');
     for (const error in errors) {
       console.log(`${error} => ${errors[error].message}`);
+    }
+  };
+
+  const encodeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.currentTarget.files;
+    if (files) {
+      const text = await files[0].text();
+      alert(`text file => ${text}`);
     }
   };
 
   return (
     <MyForm onSubmit={handleSubmit(onValid, onInvalid)}>
       <Label htmlFor="firstName">First name</Label>
-      <Input
-        id="firstName"
-        type="text"
-        placeholder="ex. 미지"
-        aria-invalid={errors.firstName ? true : false}
-        {...register('firstName')}
+      <Controller
+        control={control}
+        name={'firstName'}
+        render={({ field: { value, onChange, ref } }) => (
+          <Input
+            id="firstName"
+            type="text"
+            placeholder="ex. 미지"
+            aria-invalid={errors.firstName ? true : false}
+            ref={ref}
+            value={value}
+            onChange={onChange}
+          />
+        )}
       />
       {errors.firstName && (
         <ErrorMessage>{errors.firstName.message}</ErrorMessage>
       )}
 
       <Label htmlFor="lastName">Last name</Label>
-      <Input
-        id="lastName"
-        type="text"
-        placeholder="ex. 김"
-        aria-invalid={errors.lastName ? true : false}
-        {...register('lastName')}
+      <Controller
+        control={control}
+        name={'lastName'}
+        render={({ field: { value, onChange, ref } }) => (
+          <Input
+            id="lastName"
+            type="text"
+            placeholder="ex. 김"
+            aria-invalid={errors.lastName ? true : false}
+            ref={ref}
+            value={value}
+            onChange={onChange}
+          />
+        )}
       />
       {errors.lastName && (
         <ErrorMessage>{errors.lastName.message}</ErrorMessage>
       )}
 
       <Label htmlFor="email">Email</Label>
-      <Input
-        id="email"
-        type="text"
-        placeholder="ex. unknown@gmail.com"
-        aria-invalid={errors.email ? true : false}
-        {...register('email')}
+      <Controller
+        control={control}
+        name={'email'}
+        render={({ field: { value, onChange, ref } }) => (
+          <Input
+            id="email"
+            type="text"
+            placeholder="ex. unknown@gmail.com"
+            aria-invalid={errors.email ? true : false}
+            ref={ref}
+            value={value}
+            onChange={onChange}
+          />
+        )}
       />
       {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
 
       <Label htmlFor="phone">Phone number</Label>
-      <Input
-        id="phone"
-        type="numeric"
-        placeholder="ex. 01012345678"
-        aria-invalid={errors.phone ? true : false}
-        {...register('phone')}
+      <Controller
+        control={control}
+        name={'phone'}
+        render={({ field: { value, onChange, ref } }) => (
+          <Input
+            id="phone"
+            type="text"
+            placeholder="ex. 01012345678"
+            aria-invalid={errors.phone ? true : false}
+            ref={ref}
+            value={value}
+            onChange={onChange}
+          />
+        )}
       />
       {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
 
       <Label htmlFor="title">Title</Label>
-      <SelectBox
-        id="title"
-        {...register('title')}
-      >
-        <option value="Mr">Mr</option>
-        <option value="Mrs">Mrs</option>
-        <option value="Miss">Miss</option>
-        <option value="Dr">Dr</option>
-      </SelectBox>
+      <Controller
+        control={control}
+        name={'title'}
+        render={({ field: { value, onChange, ref } }) => (
+          <SelectBox
+            id="title"
+            ref={ref}
+            value={value}
+            onChange={onChange}
+          >
+            <option value="Mr">Mr</option>
+            <option value="Mrs">Mrs</option>
+            <option value="Miss">Miss</option>
+            <option value="Dr">Dr</option>
+          </SelectBox>
+        )}
+      />
       {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
 
       <p>Are you a developer?</p>
       <JobInput>
         <label htmlFor="developer">Yes</label>
-        <input
-          id="developer"
-          {...register('developer')}
-          type="radio"
-          value="Yes"
-          checked
+        <Controller
+          control={control}
+          name={'developer'}
+          render={({ field: { value, onChange, ref } }) => (
+            <input
+              id="developer"
+              name="developer"
+              type="radio"
+              value="yes"
+              ref={ref}
+              onChange={onChange}
+              checked
+            />
+          )}
         />
         <label htmlFor="developer">No</label>
-        <input
-          {...register('developer')}
-          type="radio"
-          value="No"
+        <Controller
+          control={control}
+          name={'developer'}
+          render={({ field: { value, onChange, ref } }) => (
+            <input
+              id="developer"
+              name="developer"
+              type="radio"
+              value="no"
+              ref={ref}
+              onChange={onChange}
+            />
+          )}
         />
       </JobInput>
       {errors.developer && (
         <ErrorMessage>{errors.developer.message}</ErrorMessage>
       )}
+
+      <Label htmlFor="file">File</Label>
+      <Controller
+        control={control}
+        name={'file'}
+        render={({ field: { value, onChange, ref } }) => (
+          <Input
+            id="file"
+            type="file"
+            accept=".txt"
+            aria-invalid={errors.file ? true : false}
+            ref={ref}
+            onChange={(e) => encodeFile(e)}
+          />
+        )}
+      />
 
       <SubmitButton
         type="submit"

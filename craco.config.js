@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   webpack: {
     alias: {
-      '@': path.resolve(__dirname, './'),
+      '@': path.resolve(__dirname, './src'),
       '@src': path.resolve(__dirname, './src'),
       '@schema': path.resolve(__dirname, './schema'),
       '@assets': path.resolve(__dirname, './assets'),
@@ -17,7 +17,7 @@ module.exports = {
       '@constants': path.resolve(__dirname, './schema/constants'),
       '@models': path.resolve(__dirname, './schema/models'),
       // assets > *
-      '@icons': path.resolve(__dirname, './assets/icons')
-    }
-  }
+      '@icons': path.resolve(__dirname, './assets/icons'),
+    },
+  },
 };

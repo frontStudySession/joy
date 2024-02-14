@@ -119,4 +119,17 @@ const { register } = useForm<FormInputs>({
       ex) value: any
       초기 입력값 설정
       
+
+3️⃣ Controller
+
+  속성
+  • control : useForm에서 제공하는 control을 등록
+  • name : 유효성 검증하려는 변수명 입력
+  • render : 검증이 필요한 컴포넌트 등록
+
+  field 값
+  • onChange : 컴포넌트에서 발생된 onChange 이벤트를 hook form에 전달
+  • onBlur : 컴포넌트에서 발생된 onBlur 이벤트를 hook form에 전달
+  • value : 현재 hook form에 저장되어 있는 Controller에 등록된 name의 value값
+  • ref : error가 발생되었을 때 focusing 제공을 위해 사용
 */
