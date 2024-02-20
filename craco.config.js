@@ -17,7 +17,7 @@ module.exports = {
       '@constants': path.resolve(__dirname, './schema/constants'),
       '@models': path.resolve(__dirname, './schema/models'),
       // assets > *
-      '@icons': path.resolve(__dirname, './assets/icons')
-    }
-  }
+      '@icons': path.resolve(__dirname, './assets/icons'),
+    },
+  },
 };
