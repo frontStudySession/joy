@@ -100,8 +100,15 @@ export default function Form() {
   };
 
   const encodeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.currentTarget.files;
-    if (files) {
+    const fileInput = event.currentTarget as HTMLInputElement;
+    const files = fileInput.files;
+    if (files && files.length) {
+      const isText = /\.txt$/i.test(files[0].name);
+      if (!isText) {
+        alert('it takes only .txt extension.');
+        fileInput.value = '';
+        return;
+      }
       const text = await files[0].text();
       alert(`text file => ${text}`);
     }
@@ -175,6 +182,7 @@ export default function Form() {
           <Input
             id="phone"
             type="text"
+            input-mode="numeric"
             placeholder="ex. 01012345678"
             aria-invalid={errors.phone ? true : false}
             ref={ref}
