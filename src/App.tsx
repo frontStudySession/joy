@@ -1,15 +1,35 @@
 import React from 'react';
-import styled from 'styled-components';
+
 import './App.css';
+import styled from 'styled-components';
+import { Router } from '@routes/Router';
+import Route from '@routes/Route';
+
 import { Intro } from '@components/Intro';
 import { Hello } from '@helpers/Hello';
 import Form from '@components/Form';
+import Heart from '@src/components/Heart';
 
 function App() {
   return (
-    <MyApp>
-      <Form />
-    </MyApp>
+    <Router>
+      <Route
+        path="/"
+        component={<Hello />}
+      />
+      <Route
+        path="/intro"
+        component={<Intro />}
+      />
+      <Route
+        path="/form"
+        component={<Form />}
+      />
+      <Route
+        path="/heart"
+        component={<Heart />}
+      />
+    </Router>
   );
 }
 
